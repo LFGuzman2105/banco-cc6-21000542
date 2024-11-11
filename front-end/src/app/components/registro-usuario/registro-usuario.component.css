@@ -1,0 +1,56 @@
+#formulario {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input {
+    width: 100%;
+}
+
+#divNombres {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.nombres {
+    width: 49%;
+}
+
+#labelGenero {
+    align-self: flex-start;
+}
+
+#tipo_cuenta {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#btRegresar {
+    align-self: flex-start;
+    cursor: pointer;
+    &:hover {
+        color: #007bff;
+    }
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield; /* Para Firefox */
+}

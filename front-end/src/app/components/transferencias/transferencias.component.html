@@ -1,0 +1,23 @@
+<app-toolbar></app-toolbar>
+<div id="formulario">
+    <h2><b>TRANSFERENCIAS</b></h2>
+    <div id="divArriba">
+        <mat-form-field id="inputTitulo">
+            <mat-label>Titulo</mat-label>
+            <input matInput placeholder="" required [(ngModel)]="prueba">
+        </mat-form-field>
+        <mat-form-field id="inputSelect">
+            <mat-label>Prioridad</mat-label>
+            <mat-select required [(ngModel)]="prueba">
+                <mat-option value="ALTA">ALTA</mat-option>
+                <mat-option value="MEDIA">MEDIA</mat-option>
+                <mat-option value="BAJA">BAJA</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <mat-form-field id="textArea">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput placeholder="" required [(ngModel)]="prueba"></textarea>
+    </mat-form-field>
+    <button mat-raised-button color="primary">AGREGAR</button>
+</div>

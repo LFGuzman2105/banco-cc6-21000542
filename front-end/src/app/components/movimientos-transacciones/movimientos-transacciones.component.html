@@ -1,0 +1,86 @@
+<app-toolbar></app-toolbar>
+<div id="divBody">
+    <div id="divTransacciones">
+        <h2>Movimientos</h2>
+        <mat-form-field class="input">
+            <mat-label>Descripcion:</mat-label>
+            <input matInput (keyup)="applyFilter($event, 'descripcion')" placeholder="Buscar en todas las columnas">
+            <!-- @if (username) {
+                <button matSuffix mat-icon-button aria-label="Clear" (click)="username=''">
+                    <mat-icon>close</mat-icon>
+                </button>
+            } -->
+        </mat-form-field>
+        <mat-form-field class="input">
+            <mat-label>Fecha Transacción:</mat-label>
+            <input matInput (keyup)="applyFilter($event, 'fecha_transaccion')" placeholder="Buscar en todas las columnas">
+            <!-- @if (username) {
+                <button matSuffix mat-icon-button aria-label="Clear" (click)="username=''">
+                    <mat-icon>close</mat-icon>
+                </button>
+            } -->
+        </mat-form-field>
+        <mat-form-field class="input">
+            <mat-label>Monto:</mat-label>
+            <input matInput type="number" (keyup)="applyFilter($event, 'monto')" placeholder="Buscar en todas las columnas">
+            <!-- @if (username) {
+                <button matSuffix mat-icon-button aria-label="Clear" (click)="username=''">
+                    <mat-icon>close</mat-icon>
+                </button>
+            } -->
+        </mat-form-field>
+        <br>
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" matSort class="mat-table">
+              <!-- Descripción Column -->
+              <ng-container matColumnDef="descripcion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </th>
+                <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+              </ng-container>
+          
+              <!-- Fecha de Transacción Column -->
+              <ng-container matColumnDef="fecha_transaccion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Transacción </th>
+                <td mat-cell *matCellDef="let element"> {{element.fecha_transaccion | date:'dd-MM-yyyy, HH:mm' }} </td>
+              </ng-container>
+          
+              <!-- Número de Cuenta Column -->
+              <ng-container matColumnDef="num_cuenta">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Número de Cuenta Destino </th>
+                <td mat-cell *matCellDef="let element"> {{element.num_cuenta}} </td>
+              </ng-container>
+          
+              <!-- Operación Column -->
+              <ng-container matColumnDef="operacion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Operación </th>
+                <td mat-cell *matCellDef="let element"> {{element.operacion}} </td>
+              </ng-container>
+          
+              <!-- Monto Column -->
+              <ng-container matColumnDef="monto">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Monto </th>
+                <td mat-cell *matCellDef="let element" [ngStyle]="{'color': element.monto < 0 ? 'red' : 'green'}"> {{element.monto | number:'1.2-2' }} </td>
+              </ng-container>
+          
+              <!-- Origen Column -->
+              <ng-container matColumnDef="origen">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Origen </th>
+                <td mat-cell *matCellDef="let element"> {{element.origen}} </td>
+              </ng-container>
+          
+              <!-- Producto Column -->
+              <ng-container matColumnDef="producto">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Producto </th>
+                <td mat-cell *matCellDef="let element"> {{element.producto}} </td>
+              </ng-container>
+          
+              <!-- Table Header and Rows -->
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          
+            <!-- Paginador -->
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          </div>
+    </div>
+</div>

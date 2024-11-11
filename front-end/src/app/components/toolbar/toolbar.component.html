@@ -1,0 +1,8 @@
+<mat-toolbar color="primary">
+    <mat-icon>person</mat-icon>
+    <span class="spacer">Bienvenido: {{nombreCliente}}</span>
+    <button mat-raised-button class="btnOtros" routerLink="/estadoCuenta"><mat-icon>account_balance</mat-icon>ESTADO DE CUENTAS</button>
+    <button mat-raised-button class="btnOtros" routerLink="/solicitarTarjeta"><mat-icon>payment</mat-icon>SOLICITAR TARJETA</button>
+    <button mat-raised-button class="btnOtros" routerLink="/transferencias"><mat-icon>swap_horiz</mat-icon>TRANSFERENCIAS</button>
+    <button mat-raised-button (click)="logout()" id="btnCerrarSesion"><mat-icon>exit_to_app</mat-icon>CERRAR SESIÓN</button>
+</mat-toolbar>
