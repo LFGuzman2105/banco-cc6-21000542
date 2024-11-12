@@ -18,4 +18,8 @@ export class CuentaService {
   getCuentas(id_cliente: string): Observable<any> {
     return this.http.post(`${this.APP_DOMAIN}/cuentas`, {id_cliente}, {headers: this.headers});
   }
+
+  getCuentaMovimiento(id_cuenta: string): Observable<any> {
+    return this.http.post(`${this.APP_DOMAIN}/cuentaMovimiento`, {id_cuenta}, {headers: this.headers});
+  }
 }

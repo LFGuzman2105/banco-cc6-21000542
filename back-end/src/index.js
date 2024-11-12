@@ -3,6 +3,7 @@ require("./app/ClienteUsuario")(app);
 require("./app/login")(app);
 require("./app/transacciones")(app);
 require("./app/cuentas")(app);
+require("./app/tarjetas")(app);
 const port = 3000;
 
 app.listen(port, () => {

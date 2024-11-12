@@ -2,7 +2,23 @@ const connection = require('../config/configDB');
 
 module.exports = (app) => { 
     app.post('/cuentas', (req, res) => {
-        connection.query(`SELECT id_cuenta, num_cuenta, saldo, descripcion FROM cuentas c, tipo_cuenta tc WHERE c.id_tipo_cuenta = tc.id_tipo_cuenta AND c.id_cliente = "${req.body.id_cliente}"`, (error, rows, columns) => {
+        connection.query(`SELECT id_cuenta, num_cuenta, saldo, descripcion FROM cuentas c, tipo_cuenta tc 
+            WHERE c.id_tipo_cuenta = tc.id_tipo_cuenta AND c.id_cliente = "${req.body.id_cliente}"`, (error, rows, columns) => {
+            if (error) {
+                return res.json({status: 0, mensaje: "Error en el servidor. " + error});
+            }
+            else if (rows.length == 0) {
+                return res.json({status: 0, mensaje: "Datos de cuentas no encontrados."});
+            }
+            else {
+                return res.json({status: 1, mensaje: "Datos de cuentas del cliente obtenidos.", data: rows});
+            }
+        });
+    });
+
+    app.post('/cuentaMovimiento', (req, res) => {
+        connection.query(`SELECT num_cuenta, saldo, descripcion FROM cuentas c, tipo_cuenta tc 
+            WHERE c.id_tipo_cuenta = tc.id_tipo_cuenta AND c.id_cuenta = "${req.body.id_cuenta}"`, (error, rows, columns) => {
             if (error) {
                 return res.json({status: 0, mensaje: "Error en el servidor. " + error});
             }

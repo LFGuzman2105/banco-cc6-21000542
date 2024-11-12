@@ -60,8 +60,9 @@ export class EstadoCuentaComponent {
     }
   }
 
-  verMovimientos(id_cuenta: string) {
+  verMovimientos(id_cuenta: string, num_cuenta: string) {
     this.authService.setIdCuenta(id_cuenta);
+    this.authService.setNumCuenta(num_cuenta);
     this.router.navigate(['/movimientosTransacciones']);
   }
 }

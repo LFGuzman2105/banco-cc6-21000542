@@ -76,12 +76,30 @@ export class AuthGuardService implements CanActivate {
     }
   }
 
+  setNumCuenta(numCuenta: string): void {
+    // Guardar el numCuenta en el almacenamiento
+    if (this.isLocalStorageAvailable()) {
+      localStorage.setItem('numCuenta', numCuenta);
+    }
+  }
+
+  getNumCuenta(): string | null {
+    // Obtener el numCuenta del almacenamiento
+    if (this.isLocalStorageAvailable()) {
+      return localStorage.getItem('numCuenta');
+    }
+    else {
+      return null;
+    }
+  }
+
   logout(): void {
     // Eliminar el token del almacenamiento
     if (this.isLocalStorageAvailable()) {
       localStorage.removeItem('token');
       localStorage.removeItem('idCliente');
       localStorage.removeItem('idCuenta');
+      localStorage.removeItem('numCuenta');
     }
 
     // Redirigir al usuario a la página de inicio de sesión

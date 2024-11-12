@@ -11,7 +11,7 @@
                 <p>No. {{cuenta.num_cuenta}}</p>
                 <p style="text-align: end;">GTQ {{ cuenta.saldo | number:'1.2-2' }}</p>
                 <p style="text-align: end; color: gray;">Saldo disponible</p>
-                <button mat-raised-button color="primary" (click)="verMovimientos(cuenta.id_cuenta)">Ver movimientos</button>
+                <button mat-raised-button color="primary" (click)="verMovimientos(cuenta.id_cuenta, cuenta.num_cuenta)">Ver movimientos</button>
             </div>
         }
     </div>

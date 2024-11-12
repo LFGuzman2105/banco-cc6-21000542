@@ -1,34 +1,111 @@
 <app-toolbar></app-toolbar>
 <div id="divBody">
     <div id="divTransacciones">
+        <div id="divDatos">
+            <div class="divDatosCuenta">
+                <mat-card appearance="outlined">
+                    <mat-card-header>
+                      <mat-card-title>CUENTA {{tipo_cuenta}}</mat-card-title>
+                      <mat-card-subtitle>No. {{num_cuenta}}</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <h3>Saldo GTQ. {{saldo | number:'1.2-2'}} </h3>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            @if (id_tarjeta) {
+            <div class="divDatosCuenta">
+                <mat-card appearance="outlined">
+                    <mat-card-header>
+                        <mat-card-title>TARJETA DE DÉBITO {{marca_tarjeta}} {{categoria_tarjeta}}</mat-card-title>
+                        <mat-card-subtitle>No. {{no_tarjeta}}</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>Fecha de Vencimiento: {{fecha_vencimiento_tarjeta | date:'MM/yy'}}</p>
+                        <p>CVV: {{codigo_tarjeta}}</p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            }
+        </div>
+        <br>
         <h2>Movimientos</h2>
-        <mat-form-field class="input">
-            <mat-label>Descripcion:</mat-label>
-            <input matInput (keyup)="applyFilter($event, 'descripcion')" placeholder="Buscar en todas las columnas">
-            <!-- @if (username) {
-                <button matSuffix mat-icon-button aria-label="Clear" (click)="username=''">
-                    <mat-icon>close</mat-icon>
-                </button>
-            } -->
-        </mat-form-field>
-        <mat-form-field class="input">
-            <mat-label>Fecha Transacción:</mat-label>
-            <input matInput (keyup)="applyFilter($event, 'fecha_transaccion')" placeholder="Buscar en todas las columnas">
-            <!-- @if (username) {
-                <button matSuffix mat-icon-button aria-label="Clear" (click)="username=''">
-                    <mat-icon>close</mat-icon>
-                </button>
-            } -->
-        </mat-form-field>
-        <mat-form-field class="input">
-            <mat-label>Monto:</mat-label>
-            <input matInput type="number" (keyup)="applyFilter($event, 'monto')" placeholder="Buscar en todas las columnas">
-            <!-- @if (username) {
-                <button matSuffix mat-icon-button aria-label="Clear" (click)="username=''">
-                    <mat-icon>close</mat-icon>
-                </button>
-            } -->
-        </mat-form-field>
+        <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title><mat-icon>filter_list</mat-icon>Filtros</mat-panel-title>
+              </mat-expansion-panel-header>
+              <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                <mat-form-field class="input">
+                    <mat-label>Fecha-Hora Transacción:</mat-label>
+                    <input matInput (keyup)="applyFilter($event, 'fecha_transaccion')"  placeholder="" [(ngModel)]="f_transaccion">
+                    @if (f_transaccion) {
+                        <button matSuffix mat-icon-button aria-label="Clear" (click)="clearSingleFilter('fecha_transaccion')" (click)="f_transaccion=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    }
+                </mat-form-field>
+                <mat-form-field class="input">
+                    <mat-label>Número de Cuenta Destino:</mat-label>
+                    <input matInput (keyup)="applyFilter($event, 'num_cuenta')"  placeholder="" [(ngModel)]="n_cuenta">
+                    @if (n_cuenta) {
+                        <button matSuffix mat-icon-button aria-label="Clear" (click)="clearSingleFilter('num_cuenta')" (click)="n_cuenta=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    }
+                </mat-form-field>
+                <mat-form-field class="input">
+                    <mat-label>Origen:</mat-label>
+                    <input matInput (keyup)="applyFilter($event, 'origen')"  placeholder="" [(ngModel)]="origin">
+                    @if (origin) {
+                        <button matSuffix mat-icon-button aria-label="Clear" (click)="clearSingleFilter('origen')" (click)="origin=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    }
+                </mat-form-field>
+                <mat-form-field class="input">
+                    <mat-label>Descripcion:</mat-label>
+                    <input matInput (keyup)="applyFilter($event, 'descripcion')" placeholder="" [(ngModel)]="description">
+                    @if (description) {
+                        <button matSuffix mat-icon-button aria-label="Clear" (click)="clearSingleFilter('descripcion')" (click)="description=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    }
+                </mat-form-field>
+                <mat-form-field class="input">
+                    <mat-label>Operación:</mat-label>
+                    <input matInput (keyup)="applyFilter($event, 'operacion')" placeholder="" [(ngModel)]="operation">
+                    @if (operation) {
+                        <button matSuffix mat-icon-button aria-label="Clear" (click)="clearSingleFilter('operacion')" (click)="operation=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    }
+                </mat-form-field>
+                <mat-form-field class="input">
+                    <mat-label>Producto:</mat-label>
+                    <input matInput (keyup)="applyFilter($event, 'producto')" placeholder="" [(ngModel)]="product">
+                    @if (product) {
+                        <button matSuffix mat-icon-button aria-label="Clear" (click)="clearSingleFilter('producto')" (click)="product=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    }
+                </mat-form-field>
+                <mat-form-field class="input">
+                    <mat-label>Monto:</mat-label>
+                    <input matInput (keyup)="applyFilter($event, 'monto')" placeholder="" [(ngModel)]="amount"> 
+                    @if (amount) {
+                        <button matSuffix mat-icon-button aria-label="Clear" (click)="clearSingleFilter('monto')" (click)="amount=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    }
+                </mat-form-field>
+            </div>
+            <button mat-raised-button color="primary" (click)="clearFilters()">Limpiar Filtros</button>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <br>
+        <button mat-raised-button color="primary" (click)="generatePdf()" style="width: 13%; align-self: flex-end;"><mat-icon>picture_as_pdf</mat-icon>Generar PDF</button>
         <br>
         <div class="mat-elevation-z8">
             <table mat-table [dataSource]="dataSource" matSort class="mat-table">
@@ -40,7 +117,7 @@
           
               <!-- Fecha de Transacción Column -->
               <ng-container matColumnDef="fecha_transaccion">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Transacción </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha-Hora Transacción </th>
                 <td mat-cell *matCellDef="let element"> {{element.fecha_transaccion | date:'dd-MM-yyyy, HH:mm' }} </td>
               </ng-container>
           
@@ -58,7 +135,7 @@
           
               <!-- Monto Column -->
               <ng-container matColumnDef="monto">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Monto </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Monto GTQ. </th>
                 <td mat-cell *matCellDef="let element" [ngStyle]="{'color': element.monto < 0 ? 'red' : 'green'}"> {{element.monto | number:'1.2-2' }} </td>
               </ng-container>
           
