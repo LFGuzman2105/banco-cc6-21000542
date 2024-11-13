@@ -1,0 +1,20 @@
+<app-toolbar></app-toolbar>
+<div id="divBody">
+    <div id="formulario">
+        <h2><mat-icon>attach_money</mat-icon>Solicitud de Nueva Cuenta</h2>
+    
+        <mat-form-field>
+            <mat-label id="selectTipo_Cuenta">Tipo de Cuenta*</mat-label>
+            <mat-select [(value)]="id_tipo_cuenta">
+              <mat-option value=1>Ahorros</mat-option>
+              <mat-option value=2>Corriente</mat-option>
+              <mat-option value=3>Depósito a plazo</mat-option>
+              <mat-option value=3>Monetaria</mat-option>
+            </mat-select>
+        </mat-form-field>
+    
+        <br>
+        <button mat-raised-button color="primary" id="btnRegistrar" (click)="registrarCuenta()">SOLICITAR CUENTA</button>
+        <br>
+    </div>
+</div>

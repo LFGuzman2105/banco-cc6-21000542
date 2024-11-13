@@ -1,0 +1,59 @@
+#divBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 30%;
+    width: 100%;
+}
+
+#formulario {
+    margin-top: 30px;
+    margin-bottom: 100px;
+    width: 30%;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.input {
+    width: 100%;
+}
+
+#btnRegistrar {
+    width: 40%;
+    align-self: center;
+}
+
+.nombres {
+    width: 49%;
+}
+
+.selectTarjeta {
+    align-self: flex-start;
+}
+
+#tipo_cuenta {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#btRegresar {
+    align-self: flex-start;
+    cursor: pointer;
+    &:hover {
+        color: #007bff;
+    }
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield; /* Para Firefox */
+}

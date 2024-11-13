@@ -1,38 +1,59 @@
+#divBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 30%;
+    width: 100%;
+}
+
 #formulario {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-height: 80%;
-    width: 25%;
+    margin-top: 30px;
+    margin-bottom: 100px;
+    width: 40%;
     padding: 10px;
     border-radius: 10px;
     background-color: white;
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
-#divArriba {
+.input {
+    width: 50%;
+}
+
+#btnRegistrar {
+    width: 35%;
+    align-self: center;
+}
+
+.nombres {
+    width: 49%;
+}
+
+#selectTipo_Cuenta {
+    align-self: flex-start;
+}
+
+#tipo_cuenta {
+    width: 80%;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    width: 100%;
 }
 
-#inputTitulo {
-    width: 65%;
+#btRegresar {
+    align-self: flex-start;
+    cursor: pointer;
+    &:hover {
+        color: #007bff;
+    }
 }
 
-#inputSelect {
-    width: 30%;
+input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
-}
-
-#textArea {
-    width: 100%;
-}
-
-textArea {
-    max-height: 400px;
+  input[type="number"] {
+    -moz-appearance: textfield; /* Para Firefox */
 }

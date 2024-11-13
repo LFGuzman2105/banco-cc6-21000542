@@ -483,13 +483,13 @@ BEGIN
             UPDATE cuentas SET saldo = saldo - amount WHERE num_cuenta = num_account;
 
             INSERT INTO transacciones (id_transaccion, producto, id_operacion, origen, monto, id_cliente, id_cuenta, id_cuenta_destino, descripcion, id_servidor_transaccion, estado_transaccion, fecha_transaccion)
-            VALUES(UUID(), t_product, type_transaction, source, amount * -1, id_client, id_account, id_account_source, t_description, id_server, status_transaction, NOW());
+            VALUES(UUID(), t_product, type_transaction, source, amount * -1, id_client, id_account_source, id_account, t_description, id_server, status_transaction, NOW());
 
             IF destiny_account = 1 THEN 
                 UPDATE cuentas SET saldo = saldo + amount WHERE num_cuenta = num_account_source;
 
                 INSERT INTO transacciones (id_transaccion, producto, id_operacion, origen, monto, id_cliente, id_cuenta, id_cuenta_destino, descripcion, id_servidor_transaccion, estado_transaccion, fecha_transaccion)
-                VALUES(UUID(), t_product, type_transaction, source, amount, id_client_source, id_account, id_account_source, t_description, id_server, status_transaction, NOW());
+                VALUES(UUID(), t_product, type_transaction, source, amount, id_client_source, id_account_source, id_account, t_description, id_server, status_transaction, NOW());
             END IF;
         END IF;
     ELSE

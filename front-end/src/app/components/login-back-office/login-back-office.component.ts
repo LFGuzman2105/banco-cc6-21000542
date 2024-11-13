@@ -5,26 +5,26 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoginService } from '../../services/login.service';
-import { AuthGuardService } from '../../services/auth-guard.service';
+import { AuthGuardBackOfficeService } from '../../services/auth-guard-back-office.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-login-back-office',
   standalone: true,
-  imports: [MatInputModule, MatFormFieldModule, MatIconModule, MatButtonModule, HttpClientModule, FormsModule, RouterModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
-  providers: [LoginService, AuthGuardService]
+  imports: [FormsModule, MatInputModule, MatFormFieldModule, MatIconModule, MatButtonModule, HttpClientModule],
+  templateUrl: './login-back-office.component.html',
+  styleUrl: './login-back-office.component.css',
+  providers: [LoginService, AuthGuardBackOfficeService]
 })
-export class LoginComponent {
+export class LoginBackOfficeComponent {
   username: string;
   password: string;
   hide: boolean;
   
 
-  constructor(private snackBar: MatSnackBar, private router: Router, private loginService: LoginService, private authGuardService: AuthGuardService) {
+  constructor(private snackBar: MatSnackBar, private router: Router, private loginService: LoginService, private authGuardService: AuthGuardBackOfficeService) {
     this.username = "";
     this.password = "";
     this.hide = true;
@@ -50,7 +50,7 @@ export class LoginComponent {
             });
           }
           else {
-            if (response.role_id == 1) {
+            if (response.role_id == 2) {
               this.snackBar.open("No tiene permisos para acceder a esta aplicación.", 'Cerrar', {
                 duration: 5000,
               });
@@ -59,7 +59,7 @@ export class LoginComponent {
               this.authGuardService.setToken(response.token);
               this.authGuardService.setRole(response.role_id);
               this.authGuardService.setIdCliente(response.id_cliente);
-              this.router.navigate(['/estadoCuenta']);
+              this.router.navigate(['/caja']);
             }
           }
         }

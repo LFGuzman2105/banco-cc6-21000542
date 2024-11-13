@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { FormsModule} from '@angular/forms';
@@ -44,7 +44,7 @@ export interface Transaccion {
   styleUrl: './movimientos-transacciones.component.css',
   providers: [AuthGuardService, TransaccionService, provideNativeDateAdapter(), CuentaService, TarjetaService]
 })
-export class MovimientosTransaccionesComponent {
+export class MovimientosTransaccionesComponent implements AfterViewInit {
   filters: { [key: string]: string } = {
     descripcion: '',
     fecha_transaccion: '',
@@ -58,6 +58,7 @@ export class MovimientosTransaccionesComponent {
   displayedColumns: string[];
   dataSource: MatTableDataSource<Transaccion>;
 
+  id_cliente: string;
   id_cuenta: string;
   num_cuenta: string;
   tipo_cuenta: string;
@@ -81,6 +82,12 @@ export class MovimientosTransaccionesComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.sort.active = 'fecha_transaccion';
+    this.dataSource.sort.direction = 'desc';
+  }
+
   constructor(private authService: AuthGuardService, private transaccionService: TransaccionService, private cuentaService: CuentaService, private tarjetaService: TarjetaService) { 
     this.f_transaccion = "";
     this.n_cuenta = "";
@@ -90,6 +97,7 @@ export class MovimientosTransaccionesComponent {
     this.product = "";
     this.amount = "";
 
+    this.id_cliente = authService.getIdCliente() || '';
     this.id_cuenta = authService.getIdCuenta() || '';
     this.num_cuenta = authService.getNumCuenta() || '';
     this.tipo_cuenta = "";
@@ -108,21 +116,22 @@ export class MovimientosTransaccionesComponent {
     this.fecha_vencimiento_tarjeta = "";
 
     this.tarjetaService.getDatosTarjeta(this.id_cuenta).subscribe((response) => {
-      this.id_tarjeta = response.data[0].id_tarjeta;
-      this.no_tarjeta = response.data[0].no_tarjeta;
-      this.marca_tarjeta = response.data[0].marca.toUpperCase();
-      this.categoria_tarjeta = response.data[0].categoria.toUpperCase();
-      this.codigo_tarjeta = response.data[0].codigo;
-      this.fecha_vencimiento_tarjeta = response.data[0].fecha_vencimiento;
+      if (response.status == 1) {
+        this.id_tarjeta = response.data[0].id_tarjeta;
+        this.no_tarjeta = response.data[0].no_tarjeta;
+        this.marca_tarjeta = response.data[0].marca.toUpperCase();
+        this.categoria_tarjeta = response.data[0].categoria.toUpperCase();
+        this.codigo_tarjeta = response.data[0].codigo;
+        this.fecha_vencimiento_tarjeta = response.data[0].fecha_vencimiento;
+      }
     });
 
     this.displayedColumns = ['fecha_transaccion', 'num_cuenta', 'origen', 'descripcion', 'operacion', 'producto', 'monto'];
     this.dataSource = new MatTableDataSource<Transaccion>([]);
 
-    this.transaccionService.getMovimientosTransacciones(this.id_cuenta).subscribe((response) => {
+    this.transaccionService.getMovimientosTransacciones(this.id_cuenta, this.id_cliente).subscribe((response) => {
       this.dataSource.data = response.data;
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
 
       this.dataSource.filterPredicate = (data: Transaccion, filter: string) => {
         const filters = JSON.parse(filter);

@@ -1,0 +1,21 @@
+.spacer {
+    flex: 1 1 auto;
+}
+
+button {
+    margin-left: 10px;
+}
+
+#btnCerrarSesion {
+    cursor: pointer;
+    &:hover {
+        color: red;
+    }
+}
+
+.btnOtros {
+    cursor: pointer;
+    &:hover {
+        color: #007bff;
+    }
+}

@@ -1,0 +1,78 @@
+<app-toolbar-back-office></app-toolbar-back-office>
+<div id="divBody">
+    <div id="formulario">
+        <h2><mat-icon>swap_horiz</mat-icon> Transacciones de Caja Bancaria</h2>
+    
+        
+        <mat-label id="labelGenero">Tipo de Transacción*</mat-label>
+        <mat-radio-group aria-label="" [(ngModel)]="id_operacion" required id="tipo_cuenta">
+            <mat-radio-button color="primary" value=1>Depósito</mat-radio-button>
+            <mat-radio-button color="primary" value=3>Retiro</mat-radio-button>
+        </mat-radio-group>
+
+        <br>
+
+        @if (id_operacion == 1) {
+            <mat-form-field class="input">
+                <mat-label>Ingrese No. de Cuenta a Acreditar</mat-label>
+                <input matInput type="number" id="num_cuenta" placeholder="" minlength="13" maxlength="13" pattern="^\d{13}$" 
+                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 13);" (input)="onInputChange($event)" [readonly]="isReadOnly" required>
+                    @if (num_cuenta) {
+                        <button matSuffix mat-icon-button aria-label="Clear" (click)="limpiarCuenta()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    }
+        
+                    @if (num_cuenta.length != 13) {
+                        <mat-error>El No. de Cuenta debe tener 13 dígitos</mat-error>
+                    }
+            </mat-form-field>
+        }
+        @else if (id_operacion == 3) {
+            <mat-form-field class="input">
+                <mat-label>Ingrese No. de Cuenta a Débitar</mat-label>
+                <input matInput type="number" id="num_cuenta" placeholder="" minlength="13" maxlength="13" pattern="^\d{13}$" 
+                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 13);" (input)="onInputChange($event)" [readonly]="isReadOnly" required>
+                    @if (num_cuenta) {
+                        <button matSuffix mat-icon-button aria-label="Clear" (click)="limpiarCuenta()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    }
+        
+                    @if (num_cuenta.length != 13) {
+                        <mat-error>El No. de Cuenta debe tener 13 dígitos</mat-error>
+                    }
+            </mat-form-field>
+        }
+
+        @if (id_cuenta) {
+            <mat-card appearance="outlined">
+                <mat-card-header>
+                  <mat-card-title><mat-icon>account_circle</mat-icon> {{nombre_cuenta}}</mat-card-title>
+                  <mat-card-subtitle>Cuenta {{tipo_cuenta}}</mat-card-subtitle>
+                </mat-card-header>
+            </mat-card>   
+        }
+
+        <br>
+        <mat-form-field class="input">
+            <mat-label>Monto</mat-label>
+            <input matInput type="number" placeholder="0.00" [(ngModel)]="monto" step="0.01" min="0" required>
+        
+                @if (monto) {
+                    <button matSuffix mat-icon-button aria-label="Clear" (click)="monto=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                }
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <mat-label>Comentario:</mat-label>
+            <textarea matInput placeholder="" [(ngModel)]="descripcion"></textarea>
+        </mat-form-field>
+
+        <br>
+        <button mat-raised-button color="primary" id="btnRegistrar" (click)="transferir()">REALIZAR TRANSFERENCIA</button>
+        <br>
+    </div>
+</div>

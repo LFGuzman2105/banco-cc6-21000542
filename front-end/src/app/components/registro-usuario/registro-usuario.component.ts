@@ -78,13 +78,13 @@ export class RegistroUsuarioComponent {
   }
 
   limpiar() {
-    this.email.reset();
+    this.email.setValue('');
   }
 
   registrar() {
     this.dpi = this.dpi.toString();
 
-    if (this.dpi == '' || this.nombre1 == '' || this.apellido1 == '' || this.apellido2 == '' || this.fecha_nacimiento == '' || this.username == '' 
+    if (this.dpi == '' || this.nombre1 == '' || this.apellido1 == '' || this.fecha_nacimiento == '' || this.username == '' 
       || this.email.invalid || this.contrasena == '' || this.id_tipo_cuenta == 0) {
       this.snackBar.open('Por favor, llene todos los campos.', 'Cerrar', {
         duration: 5000,
@@ -120,7 +120,7 @@ export class RegistroUsuarioComponent {
     this.apellido3 = "";
     this.fecha_nacimiento = '';
     this.username = '';
-    this.email.reset();
+    this.email.setValue('');
     this.contrasena = '';
     this.id_tipo_cuenta = 0;
   }

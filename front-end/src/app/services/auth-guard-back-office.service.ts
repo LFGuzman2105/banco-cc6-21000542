@@ -4,7 +4,7 @@ import { CanActivate, Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuardService implements CanActivate {
+export class AuthGuardBackOfficeService implements CanActivate {
   private token: string | null;
   private role: string | null;
   
@@ -25,13 +25,13 @@ export class AuthGuardService implements CanActivate {
 
   canActivate(): boolean {
     // Verificar si el token existe en localStorage
-    if (this.token && this.role == "2") {
+    if (this.token && this.role == "1") {
       // Si el token existe, permitir el acceso a la ruta
       return true;
     } 
     else {
       // Si no hay token, redirigir al usuario a la página de inicio de sesión
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login-back-office']);
       return false;
     }
   }
@@ -71,51 +71,15 @@ export class AuthGuardService implements CanActivate {
     }
   }
 
-  setIdCuenta(idCuenta: string): void {
-    // Guardar el idCuenta en el almacenamiento
-    if (this.isLocalStorageAvailable()) {
-      localStorage.setItem('idCuenta', idCuenta);
-    }
-  }
-
-  getIdCuenta(): string | null {
-    // Obtener el idCuenta del almacenamiento
-    if (this.isLocalStorageAvailable()) {
-      return localStorage.getItem('idCuenta');
-    }
-    else {
-      return null;
-    }
-  }
-
-  setNumCuenta(numCuenta: string): void {
-    // Guardar el numCuenta en el almacenamiento
-    if (this.isLocalStorageAvailable()) {
-      localStorage.setItem('numCuenta', numCuenta);
-    }
-  }
-
-  getNumCuenta(): string | null {
-    // Obtener el numCuenta del almacenamiento
-    if (this.isLocalStorageAvailable()) {
-      return localStorage.getItem('numCuenta');
-    }
-    else {
-      return null;
-    }
-  }
-
   logout(): void {
     // Eliminar el token del almacenamiento
     if (this.isLocalStorageAvailable()) {
       localStorage.removeItem('token');
       localStorage.removeItem('role');
       localStorage.removeItem('idCliente');
-      localStorage.removeItem('idCuenta');
-      localStorage.removeItem('numCuenta');
     }
 
     // Redirigir al usuario a la página de inicio de sesión
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login-back-office']);
   }
 }

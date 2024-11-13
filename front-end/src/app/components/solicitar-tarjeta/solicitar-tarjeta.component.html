@@ -1,2 +1,39 @@
 <app-toolbar></app-toolbar>
-<p>solicitar-tarjeta works!</p>
+<div id="divBody">
+    <div id="formulario">
+        <h2><mat-icon>credit_card</mat-icon> Solicitud de Nueva Tarjeta</h2>
+
+        <mat-form-field>
+            <mat-label id="selectTipo_Cuenta">Seleccione Cuenta a Solicitar Tarjeta*</mat-label>
+            <mat-select [(value)]="id_cuenta">
+                @for (item of cuentas_cliente; track $index) {
+                    <mat-option value={{item.id_cuenta}}><b>{{item.num_cuenta}} - {{item.descripcion}}</b> - Saldo Disponible: GTQ. {{item.saldo | number:'1.2-2' }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    
+        <mat-form-field>
+            <mat-label class="selectTarjeta">Marca de Tarjeta*</mat-label>
+            <mat-select [(value)]="id_marca_tarjeta">
+              <mat-option value=1>Visa</mat-option>
+              <mat-option value=2>MasterCard</mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+
+        <mat-form-field>
+            <mat-label class="selectTarjeta">Categoria de Tarjeta*</mat-label>
+            <mat-select [(value)]="id_categoria_tarjeta">
+              <mat-option value=1>Clásica</mat-option>
+              <mat-option value=2>Oro</mat-option>
+              <mat-option value=3>Platinum</mat-option>
+              <mat-option value=4>Black</mat-option>
+              <mat-option value=5>Débito</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <br>
+        <button mat-raised-button color="primary" id="btnRegistrar" (click)="solicitarTarjeta()">SOLICITAR TARJETA</button>
+        <br>
+    </div>
+</div>

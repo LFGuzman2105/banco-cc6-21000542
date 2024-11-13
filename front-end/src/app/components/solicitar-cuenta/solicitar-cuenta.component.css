@@ -1,36 +1,36 @@
 #divBody {
-    height: 100%;
-    align-content: center;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 30%;
+    width: 100%;
 }
 
 #formulario {
-    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: 100px;
     width: 30%;
     padding: 10px;
     border-radius: 10px;
     background-color: white;
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .input {
     width: 100%;
 }
 
-#divNombres {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
+#btnRegistrar {
+    width: 40%;
+    align-self: center;
 }
 
 .nombres {
     width: 49%;
 }
 
-#labelGenero {
+#selectTipo_Cuenta {
     align-self: flex-start;
 }
 

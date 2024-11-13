@@ -60,7 +60,7 @@ module.exports = (app) => {
                                         let id_cuenta = uuidv4();
                                         let num_cuenta = generarNumeroCuenta();
 
-                                        connection.query(`INSERT INTO cuentas VALUES("${id_cuenta}", "${num_cuenta}", "${req.body.id_tipo_cuenta}", 1, 5000.00, NOW(), 
+                                        connection.query(`INSERT INTO cuentas VALUES("${id_cuenta}", "${num_cuenta}", "${req.body.id_tipo_cuenta}", 1, 0.00, NOW(), 
                                                                                     "${id_cliente}", 1)`, (error, rows, columns) => {
                                             if (error) {
                                                 res.json({status: 0, mensaje: "Error en el servidor. " + error });

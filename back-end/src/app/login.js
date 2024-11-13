@@ -5,7 +5,7 @@ const connection = require('../config/configDB');
 module.exports = (app) => { 
     app.post('/login', (req, res) => {
 
-        connection.query(`SELECT user_id, id_cliente, password FROM usuarios 
+        connection.query(`SELECT user_id, id_cliente, password, role_id FROM usuarios 
         WHERE username = "${req.body.username}"`, async (error, rows, columns) => {
             if (error) {
                 return res.json({status: 0, mensaje: "Error en el servidor. " + error});
@@ -21,7 +21,7 @@ module.exports = (app) => {
                 }
                 else {
                     const token = jwt.sign({username: req.body.username}, 'secretkey', {expiresIn: '1h'});
-                    return res.json({status: 1, mensaje: "Usuario logueado correctamente.", token: token, id_cliente: rows[0].id_cliente});
+                    return res.json({status: 1, mensaje: "Usuario logueado correctamente.", token: token, id_cliente: rows[0].id_cliente, role_id: rows[0].role_id});
                 }
             }
         });

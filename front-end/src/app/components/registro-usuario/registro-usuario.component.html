@@ -1,180 +1,182 @@
-<div id="formulario">
-    <button id="btRegresar" matSuffix mat-icon-button aria-label="arrow_back" routerLink="/login">
-        <mat-icon>arrow_back</mat-icon>
-    </button>
-    <h2>Llene los siguientes datos para hacerse miembro del banco</h2>
-
-    <mat-form-field class="input">
-        <mat-label>DPI</mat-label>
-        <input matInput type="number" placeholder="" [(ngModel)]="dpi" minlength="13" maxlength="13" pattern=".{13}" required>
-    
-            @if (dpi) {
-                <button matSuffix mat-icon-button aria-label="Clear" (click)="dpi=''">
-                    <mat-icon>close</mat-icon>
-                </button>
-            }
-
-            @if (dpi.length != 13) {
-                <mat-error>El DPI debe tener 13 dígitos</mat-error>
-            }
-    </mat-form-field>
-
-    <div id="divNombres">
-        <mat-form-field class="nombres">
-            <mat-label>Nombre 1</mat-label>
-            <input matInput placeholder="" [(ngModel)]="nombre1" maxlength="20" required>
-    
-            @if (nombre1) {
-                <button matSuffix mat-icon-button aria-label="Clear" (click)="nombre1=''">
-                    <mat-icon>close</mat-icon>
-                </button>
-            }
-
-            @if (nombre1.length > 20) {
-                <mat-error>El nombre debe tener menos de 20 caracteres</mat-error>
-            }
-        </mat-form-field>
-        <mat-form-field class="nombres">
-            <mat-label>Nombre 2</mat-label>
-            <input matInput placeholder="" [(ngModel)]="nombre2" maxlength="20">
-    
-            @if (nombre2) {
-                <button matSuffix mat-icon-button aria-label="Clear" (click)="nombre2=''">
-                    <mat-icon>close</mat-icon>
-                </button>
-            }
-
-            @if (nombre2.length > 20) {
-                <mat-error>El nombre debe tener menos de 20 caracteres</mat-error>
-            }
-        </mat-form-field>
-        <mat-form-field class="nombres">
-            <mat-label>Nombre 3</mat-label>
-            <input matInput placeholder="" [(ngModel)]="nombre3" maxlength="20">
-    
-            @if (nombre3) {
-                <button matSuffix mat-icon-button aria-label="Clear" (click)="nombre3=''">
-                    <mat-icon>close</mat-icon>
-                </button>
-            }
-
-            @if (nombre3.length > 20) {
-                <mat-error>El nombre debe tener menos de 20 caracteres</mat-error>
-            }
-        </mat-form-field>
-    </div>
-
-    <div id="divNombres">
-        <mat-form-field class="nombres">
-            <mat-label>Apellido 1</mat-label>
-            <input matInput placeholder="" [(ngModel)]="apellido1" maxlength="20" required>
-    
-            @if (apellido1) {
-                <button matSuffix mat-icon-button aria-label="Clear" (click)="apellido1=''" >
-                    <mat-icon>close</mat-icon>
-                </button>
-            }
-
-            @if (apellido1.length > 20) {
-                <mat-error>El apellido debe tener menos de 20 caracteres</mat-error>
-            }
-        </mat-form-field>
-        <mat-form-field class="nombres">
-            <mat-label>Apellido 2</mat-label>
-            <input matInput placeholder="" [(ngModel)]="apellido2" maxlength="20" required>
-    
-            @if (apellido2) {
-                <button matSuffix mat-icon-button aria-label="Clear" (click)="apellido2=''">
-                    <mat-icon>close</mat-icon>
-                </button>
-            }
-
-            @if (apellido2.length > 20) {
-                <mat-error>El apellido debe tener menos de 20 caracteres</mat-error>
-            }
-        </mat-form-field>
-        <mat-form-field class="nombres">
-            <mat-label>Apellido 3</mat-label>
-            <input matInput placeholder="" [(ngModel)]="apellido3" maxlength="20">
-    
-            @if (apellido3) {
-                <button matSuffix mat-icon-button aria-label="Clear" (click)="apellido3=''">
-                    <mat-icon>close</mat-icon>
-                </button>
-            }
-
-            @if (apellido3.length > 20) {
-                <mat-error>El apellido debe tener menos de 20 caracteres</mat-error>
-            }
-        </mat-form-field>
-    </div>
-
-    <mat-form-field class="input">
-        <mat-label>Fecha de nacimiento</mat-label>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="fecha_nacimiento" readonly="" required>
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-    <br>
-    <mat-form-field class="input">
-        <mat-label>Username</mat-label>
-        <input matInput placeholder="" [(ngModel)]="username" maxlength="20" required>
-    
-            @if (username) {
-                <button matSuffix mat-icon-button aria-label="Clear" (click)="username=''">
-                    <mat-icon>close</mat-icon>
-                </button>
-            }
-
-            @if (username.length > 20) {
-                <mat-error>El username debe tener menos de 20 caracteres</mat-error>
-            }
-    </mat-form-field>
-
-    <mat-form-field class="input">
-        <mat-label>Email</mat-label>
-        <input matInput placeholder="pat@example.com" maxlength="30" [formControl]="email" (blur)="updateErrorMessage()" required>
-        @if (email.invalid) {
-            <mat-error>{{errorMessage}}</mat-error>
-        }
-
-        @if (email.value) {
-            <button matSuffix mat-icon-button aria-label="Clear" (click)="limpiar()">
-                <mat-icon>close</mat-icon>
-            </button>
-        }
-
-        @if (email.value.length > 30) {
-            <mat-error>El email debe tener menos de 30 caracteres</mat-error>
-        }
-        @else if (email.invalid) {
-            <mat-error>El email no es válido</mat-error>
-        }
-    </mat-form-field>
-
-    <mat-form-field class="input">
-        <mat-label>Contraseña</mat-label>
-        <input #password maxlength="30" [(ngModel)]="contrasena" matInput [type]="hide ? 'password' : 'text'" required>
-        <mat-hint align="end">{{password.value.length}} / 30</mat-hint>
-        <button mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+<div id="divBody">
+    <div id="formulario">
+        <button id="btRegresar" matSuffix mat-icon-button aria-label="arrow_back" routerLink="/login">
+            <mat-icon>arrow_back</mat-icon>
         </button>
-
-        @if (contrasena.length > 30) {
-            <mat-error>La contraseña debe tener menos de 30 caracteres</mat-error>
-        }
-    </mat-form-field>
+        <h2>Llene los siguientes datos para hacerse miembro del banco</h2>
     
-    <mat-label id="labelGenero">Tipo de cuenta*</mat-label>
-    <mat-radio-group aria-label="" [(ngModel)]="id_tipo_cuenta" required id="tipo_cuenta">
-        <mat-radio-button color="primary" value=1>Ahorros</mat-radio-button>
-        <mat-radio-button color="primary" value=2>Corriente</mat-radio-button>
-        <mat-radio-button color="primary" value=3>Depósito a plazo</mat-radio-button>
-        <mat-radio-button color="primary" value=4>Monetaria</mat-radio-button>
-    </mat-radio-group>
-    <br>
-    <button mat-raised-button color="primary" (click)="registrar()">CREAR USUARIO</button>
-    <br>
+        <mat-form-field class="input">
+            <mat-label>DPI</mat-label>
+            <input matInput type="number" placeholder="" [(ngModel)]="dpi" minlength="13" maxlength="13" pattern=".{13}" required>
+        
+                @if (dpi) {
+                    <button matSuffix mat-icon-button aria-label="Clear" (click)="dpi=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                }
+    
+                @if (dpi.length != 13) {
+                    <mat-error>El DPI debe tener 13 dígitos</mat-error>
+                }
+        </mat-form-field>
+    
+        <div id="divNombres">
+            <mat-form-field class="nombres">
+                <mat-label>Nombre 1</mat-label>
+                <input matInput placeholder="" [(ngModel)]="nombre1" maxlength="20" required>
+        
+                @if (nombre1) {
+                    <button matSuffix mat-icon-button aria-label="Clear" (click)="nombre1=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                }
+    
+                @if (nombre1.length > 20) {
+                    <mat-error>El nombre debe tener menos de 20 caracteres</mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field class="nombres">
+                <mat-label>Nombre 2</mat-label>
+                <input matInput placeholder="" [(ngModel)]="nombre2" maxlength="20">
+        
+                @if (nombre2) {
+                    <button matSuffix mat-icon-button aria-label="Clear" (click)="nombre2=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                }
+    
+                @if (nombre2.length > 20) {
+                    <mat-error>El nombre debe tener menos de 20 caracteres</mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field class="nombres">
+                <mat-label>Nombre 3</mat-label>
+                <input matInput placeholder="" [(ngModel)]="nombre3" maxlength="20">
+        
+                @if (nombre3) {
+                    <button matSuffix mat-icon-button aria-label="Clear" (click)="nombre3=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                }
+    
+                @if (nombre3.length > 20) {
+                    <mat-error>El nombre debe tener menos de 20 caracteres</mat-error>
+                }
+            </mat-form-field>
+        </div>
+    
+        <div id="divNombres">
+            <mat-form-field class="nombres">
+                <mat-label>Apellido 1</mat-label>
+                <input matInput placeholder="" [(ngModel)]="apellido1" maxlength="20" required>
+        
+                @if (apellido1) {
+                    <button matSuffix mat-icon-button aria-label="Clear" (click)="apellido1=''" >
+                        <mat-icon>close</mat-icon>
+                    </button>
+                }
+    
+                @if (apellido1.length > 20) {
+                    <mat-error>El apellido debe tener menos de 20 caracteres</mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field class="nombres">
+                <mat-label>Apellido 2</mat-label>
+                <input matInput placeholder="" [(ngModel)]="apellido2" maxlength="20">
+        
+                @if (apellido2) {
+                    <button matSuffix mat-icon-button aria-label="Clear" (click)="apellido2=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                }
+    
+                @if (apellido2.length > 20) {
+                    <mat-error>El apellido debe tener menos de 20 caracteres</mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field class="nombres">
+                <mat-label>Apellido 3</mat-label>
+                <input matInput placeholder="" [(ngModel)]="apellido3" maxlength="20">
+        
+                @if (apellido3) {
+                    <button matSuffix mat-icon-button aria-label="Clear" (click)="apellido3=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                }
+    
+                @if (apellido3.length > 20) {
+                    <mat-error>El apellido debe tener menos de 20 caracteres</mat-error>
+                }
+            </mat-form-field>
+        </div>
+    
+        <mat-form-field class="input">
+            <mat-label>Fecha de nacimiento</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="fecha_nacimiento" readonly="" required>
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="input">
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="" [(ngModel)]="username" maxlength="20" required>
+        
+                @if (username) {
+                    <button matSuffix mat-icon-button aria-label="Clear" (click)="username=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                }
+    
+                @if (username.length > 20) {
+                    <mat-error>El username debe tener menos de 20 caracteres</mat-error>
+                }
+        </mat-form-field>
+    
+        <mat-form-field class="input">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="pat@example.com" maxlength="30" [formControl]="email" (blur)="updateErrorMessage()" required>
+            @if (email.invalid) {
+                <mat-error>{{errorMessage}}</mat-error>
+            }
+    
+            @if (email.value) {
+                <button matSuffix mat-icon-button aria-label="Clear" (click)="limpiar()">
+                    <mat-icon>close</mat-icon>
+                </button>
+            }
+    
+            @if (email.value.length > 30) {
+                <mat-error>El email debe tener menos de 30 caracteres</mat-error>
+            }
+            @else if (email.invalid) {
+                <mat-error>El email no es válido</mat-error>
+            }
+        </mat-form-field>
+    
+        <mat-form-field class="input">
+            <mat-label>Contraseña</mat-label>
+            <input #password maxlength="30" [(ngModel)]="contrasena" matInput [type]="hide ? 'password' : 'text'" required>
+            <mat-hint align="end">{{password.value.length}} / 30</mat-hint>
+            <button mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+    
+            @if (contrasena.length > 30) {
+                <mat-error>La contraseña debe tener menos de 30 caracteres</mat-error>
+            }
+        </mat-form-field>
+        
+        <mat-label id="labelGenero">Tipo de cuenta*</mat-label>
+        <mat-radio-group aria-label="" [(ngModel)]="id_tipo_cuenta" required id="tipo_cuenta">
+            <mat-radio-button color="primary" value=1>Ahorros</mat-radio-button>
+            <mat-radio-button color="primary" value=2>Corriente</mat-radio-button>
+            <mat-radio-button color="primary" value=3>Depósito a plazo</mat-radio-button>
+            <mat-radio-button color="primary" value=4>Monetaria</mat-radio-button>
+        </mat-radio-group>
+        <br>
+        <button mat-raised-button color="primary" (click)="registrar()">CREAR USUARIO</button>
+        <br>
+    </div>
 </div>

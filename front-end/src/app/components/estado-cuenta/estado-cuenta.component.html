@@ -4,9 +4,9 @@
         <h2><mat-icon>monetization_on</mat-icon> Cuentas bancarias</h2>
         <p>{{nombreCliente}}</p>
     </div>
-    <div id="divCuentas" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center;">
+    <div id="divCuentas">
         @for (cuenta of cuentas; track $index) {
-            <div class="divCuenta" style="width: 25%; margin: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            <div class="divCuenta">
                 <h3><b>Cuenta {{cuenta.descripcion}}</b></h3>
                 <p>No. {{cuenta.num_cuenta}}</p>
                 <p style="text-align: end;">GTQ {{ cuenta.saldo | number:'1.2-2' }}</p>

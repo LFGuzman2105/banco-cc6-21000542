@@ -15,6 +15,14 @@ export class CuentaService {
     this.headers = new HttpHeaders({'Content-Type': 'application/json'});
   }
 
+  solicitarCuenta(id_cliente: string, id_tipo_cuenta: number): Observable<any> {
+    return this.http.post(`${this.APP_DOMAIN}/solicitarCuenta`, {id_cliente, id_tipo_cuenta}, {headers: this.headers});
+  }
+
+  getCuentaDestino(num_cuenta: string): Observable<any> {
+    return this.http.post(`${this.APP_DOMAIN}/getCuentaDestino`, {num_cuenta}, {headers: this.headers});
+  }
+
   getCuentas(id_cliente: string): Observable<any> {
     return this.http.post(`${this.APP_DOMAIN}/cuentas`, {id_cliente}, {headers: this.headers});
   }

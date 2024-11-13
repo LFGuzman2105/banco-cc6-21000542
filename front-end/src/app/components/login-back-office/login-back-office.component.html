@@ -1,0 +1,23 @@
+<div id="login">
+    <img src="..\..\..\assets\Banco.jpg" alt="Banco.jpg">
+    <h1>LOGIN CAJA</h1>
+    <mat-form-field class="input">
+        <mat-label>Username:</mat-label>
+        <input matInput placeholder="" [(ngModel)]="username" required>
+        @if (username) {
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="username=''">
+                <mat-icon>close</mat-icon>
+            </button>
+        }
+    </mat-form-field>
+    <mat-form-field class="input">
+        <mat-label>Contraseña:</mat-label>
+        <input [(ngModel)]="password" matInput [type]="hide ? 'password' : 'text'" required>
+        <button mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="login()">INGRESAR</button>
+    <br>
+</div>

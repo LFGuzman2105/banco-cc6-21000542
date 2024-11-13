@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { ToolbarComponent } from '../toolbar/toolbar.component';
+import { ToolbarBackOfficeComponent } from '../toolbar-back-office/toolbar-back-office.component';
 import { FormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
@@ -10,89 +10,89 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
-import { AuthGuardService } from '../../services/auth-guard.service';
+import { MatRadioModule } from '@angular/material/radio';
+import { AuthGuardBackOfficeService } from '../../services/auth-guard-back-office.service';
 import { CuentaService } from '../../services/cuenta.service';
 import { ClienteService } from '../../services/cliente.service';
 import { TransaccionService } from '../../services/transaccion.service';
 
 @Component({
-  selector: 'app-transferencias',
+  selector: 'app-caja',
   standalone: true,
-  imports: [ToolbarComponent, FormsModule, MatInputModule, MatFormFieldModule, MatIconModule, MatButtonModule, HttpClientModule, MatSelectModule, CommonModule, MatCardModule],
-  templateUrl: './transferencias.component.html',
-  styleUrl: './transferencias.component.css',
-  providers: [AuthGuardService, CuentaService, ClienteService, TransaccionService]
+  imports: [ToolbarBackOfficeComponent, FormsModule, CommonModule, MatInputModule, MatFormFieldModule, MatIconModule, MatButtonModule, 
+    HttpClientModule, MatSelectModule, MatCardModule, MatRadioModule],
+  templateUrl: './caja.component.html',
+  styleUrl: './caja.component.css',
+  providers: [AuthGuardBackOfficeService, CuentaService, ClienteService, TransaccionService]
 })
-export class TransferenciasComponent {
+export class CajaComponent {
   @ViewChild('inputCuentaDest') inputCuentaDest!: ElementRef;
 
-  id_cuenta_debito: string | null;
-  id_cuenta_destino: string | null;
-  nombre_cuenta_destino: string;
-  tipo_cuenta_destino: string;
-  cuentas_cliente: any;
+  id_cuenta: string | null;
+  nombre_cuenta: string;
+  tipo_cuenta: string;
   id_cliente: string;
   isReadOnly: boolean; // Variable para controlar si el campo es readonly
   
-  num_cuenta_destino: string;
-  num_cuenta_origen: string;
+  num_cuenta: string;
+  id_operacion: number;
   monto: string;
   nombreCliente: string;
   descripcion: string;
 
-  constructor(private _snackBar: MatSnackBar, private authGuardService: AuthGuardService, private cuentaService: CuentaService, private clienteService: ClienteService, private transaccionService: TransaccionService) {
-    this.id_cuenta_debito= "";
-    this.id_cuenta_destino = "";
-    this.nombre_cuenta_destino = "";
-    this.tipo_cuenta_destino = "";
+  constructor(private _snackBar: MatSnackBar, private authGuardService: AuthGuardBackOfficeService, private cuentaService: CuentaService, private clienteService: ClienteService, private transaccionService: TransaccionService) {
+    this.id_cuenta= "";
+    this.nombre_cuenta = "";
+    this.tipo_cuenta = "";
     this.isReadOnly = false;
     this.id_cliente = this.authGuardService.getIdCliente() || "";
     
-    this.num_cuenta_destino = "";
-    this.num_cuenta_origen = "";
+    this.num_cuenta = "";
     this.monto = "";
     this.nombreCliente = "";
     this.descripcion = "";
-
-    this.getCuentasCliente();
+    this.id_operacion = 0;
   }
 
   onInputChange(event: any): void {
     let inputValue = event?.target?.value || ''; 
 
     if (inputValue.length === 13) {
-      this.num_cuenta_destino = inputValue;
+      this.num_cuenta = inputValue;
       this.isReadOnly = true; // Hacemos el campo readonly
       
-      this.cuentaService.getCuentaDestino(this.num_cuenta_destino).subscribe(response => {
+      this.cuentaService.getCuentaDestino(this.num_cuenta).subscribe(response => {
         if (response.status == 0) {
+          this.id_cuenta = "";
+
           this._snackBar.open(response.mensaje, 'Cerrar', {
             duration: 5000,
           });
         }
         else {
-          this.id_cuenta_destino = response.data[0].id_cuenta_destino;
-          this.nombre_cuenta_destino = response.data[0].nombre1 + " " + response.data[0].nombre2 + " " + response.data[0].apellido1 + " " + response.data[0].apellido2;
-          this.tipo_cuenta_destino = response.data[0].tipo_cuenta;
+          this.id_cuenta = response.data[0].id_cuenta_destino;
+          this.nombre_cuenta = response.data[0].nombre1 + " " + response.data[0].nombre2 + " " + response.data[0].apellido1 + " " + response.data[0].apellido2;
+          this.tipo_cuenta = response.data[0].tipo_cuenta;
         }
       });
     }
   }
 
   // Método para limpiar el campo y habilitarlo nuevamente
-  limpiarCuentaDestino() {
-    const input = document.getElementById('num_cuenta_destino') as HTMLInputElement;
+  limpiarCuenta() {
+    const input = document.getElementById('num_cuenta') as HTMLInputElement;
 
     if (input) {
       input.value = ''; // Limpiamos el valor del input
-      this.num_cuenta_destino = ''; // Limpiamos el valor del input
+      this.num_cuenta = ''; // Limpiamos el valor del input
+      this.id_cuenta = ''; // Limpiamos el valor del input
       this.isReadOnly = false; // Lo habilitamos nuevamente
     }
   }
 
   transferir() {
-    if (this.num_cuenta_origen === "" || this.id_cuenta_destino === "") {
-      this._snackBar.open('Debe seleccionar una cuenta de débito y una cuenta de destino', 'Cerrar', {
+    if (this.num_cuenta === "" || this.id_operacion === 0) {
+      this._snackBar.open('Debe ingresar un tipo de transacción y una cuenta', 'Cerrar', {
         duration: 5000,
       });
     }
@@ -125,38 +125,41 @@ export class TransferenciasComponent {
             else {
               this.monto = parseFloat(this.monto).toFixed(2).toString();
 
-              this.transaccionService.realizarTransferencia(this.num_cuenta_destino, this.num_cuenta_origen, 2, parseFloat(this.monto), 
-                this.nombreCliente + " - No. Cuenta " + this.num_cuenta_origen, this.descripcion).subscribe(responseTransaccion => {
+              if (this.id_operacion == 1) {
+                this.transaccionService.realizarDeposito(this.num_cuenta, this.id_operacion, parseFloat(this.monto), this.descripcion).subscribe(responseTransaccion => {
+                  this._snackBar.open(responseTransaccion.body, 'Cerrar', {
+                    duration: 5000,
+                  });
 
-                this._snackBar.open(responseTransaccion.body, 'Cerrar', {
-                  duration: 5000,
+                  if (responseTransaccion.status == 201) {
+                    this.limpiarCampos();
+                  }
                 });
+              }
+              else {
+                this.transaccionService.realizarRetiro(this.num_cuenta, this.id_operacion, parseFloat(this.monto), this.descripcion).subscribe(responseTransaccion => {
+                  this._snackBar.open(responseTransaccion.body, 'Cerrar', {
+                    duration: 5000,
+                  });
 
-                if (responseTransaccion.status == 201) {
-                  this.getCuentasCliente();
-                  this.limpiarCampos();
-                }
-              });
+                  if (responseTransaccion.status == 201) {
+                    this.limpiarCampos();
+                  }
+                });
+              }
             }
-
           }
         });
       }
     }
   }
 
-  getCuentasCliente() {
-    this.cuentaService.getCuentas(this.id_cliente).subscribe(response => {
-      this.cuentas_cliente = response.data;
-    });
-  }
-
   limpiarCampos() {
-    this.limpiarCuentaDestino();
-    this.num_cuenta_origen = "";
-    this.id_cuenta_destino = "";
+    this.limpiarCuenta();
+    this.id_cuenta = "";
     this.monto = "";
     this.descripcion = "";
+    this.id_operacion = 0;
     this.isReadOnly = false;
   }
 }

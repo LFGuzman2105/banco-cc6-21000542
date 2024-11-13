@@ -15,6 +15,10 @@ export class TarjetaService {
     this.headers = new HttpHeaders({'Content-Type': 'application/json'});
   }
 
+  getSolicitarTarjeta(id_marca_tarjeta: number, id_categoria_tarjeta: number, id_cliente_tarjeta: string, id_ref_cuenta: string): Observable<any> {
+    return this.http.post(`${this.APP_DOMAIN}/solicitarTarjeta`, {id_marca_tarjeta, id_categoria_tarjeta, id_cliente_tarjeta, id_ref_cuenta}, {headers: this.headers});
+  }
+
   getDatosTarjeta(id_cuenta: string): Observable<any> {
     return this.http.post(`${this.APP_DOMAIN}/datosTarjeta`, {id_cuenta}, {headers: this.headers});
   }
