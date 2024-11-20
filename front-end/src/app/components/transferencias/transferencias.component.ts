@@ -86,6 +86,7 @@ export class TransferenciasComponent {
     if (input) {
       input.value = ''; // Limpiamos el valor del input
       this.num_cuenta_destino = ''; // Limpiamos el valor del input
+      this.id_cuenta_destino = ''; // Limpiamos el valor del input
       this.isReadOnly = false; // Lo habilitamos nuevamente
     }
   }

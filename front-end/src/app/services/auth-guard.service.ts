@@ -105,6 +105,23 @@ export class AuthGuardService implements CanActivate {
     }
   }
 
+  setIdTarjeta(idTarjeta: string): void {
+    // Guardar el idTarjeta en el almacenamiento
+    if (this.isLocalStorageAvailable()) {
+      localStorage.setItem('idTarjeta', idTarjeta);
+    }
+  }
+
+  getIdTarjeta(): string | null {
+    // Obtener el idTarjeta del almacenamiento
+    if (this.isLocalStorageAvailable()) {
+      return localStorage.getItem('idTarjeta');
+    }
+    else {
+      return null;
+    }
+  }
+
   logout(): void {
     // Eliminar el token del almacenamiento
     if (this.isLocalStorageAvailable()) {
@@ -113,6 +130,7 @@ export class AuthGuardService implements CanActivate {
       localStorage.removeItem('idCliente');
       localStorage.removeItem('idCuenta');
       localStorage.removeItem('numCuenta');
+      localStorage.removeItem('idTarjeta');
     }
 
     // Redirigir al usuario a la página de inicio de sesión

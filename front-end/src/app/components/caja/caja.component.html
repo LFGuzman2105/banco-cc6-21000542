@@ -51,10 +51,11 @@
                   <mat-card-title><mat-icon>account_circle</mat-icon> {{nombre_cuenta}}</mat-card-title>
                   <mat-card-subtitle>Cuenta {{tipo_cuenta}}</mat-card-subtitle>
                 </mat-card-header>
-            </mat-card>   
+            </mat-card>
+               
+            <br>
         }
 
-        <br>
         <mat-form-field class="input">
             <mat-label>Monto</mat-label>
             <input matInput type="number" placeholder="0.00" [(ngModel)]="monto" step="0.01" min="0" required>

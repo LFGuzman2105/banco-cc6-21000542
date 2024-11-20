@@ -84,8 +84,6 @@ export class MovimientosTransaccionesComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
-    this.dataSource.sort.active = 'fecha_transaccion';
-    this.dataSource.sort.direction = 'desc';
   }
 
   constructor(private authService: AuthGuardService, private transaccionService: TransaccionService, private cuentaService: CuentaService, private tarjetaService: TarjetaService) { 
@@ -102,6 +100,10 @@ export class MovimientosTransaccionesComponent implements AfterViewInit {
     this.num_cuenta = authService.getNumCuenta() || '';
     this.tipo_cuenta = "";
     this.saldo = "";
+
+    this.displayedColumns = ['fecha_transaccion', 'num_cuenta', 'origen', 'descripcion', 'operacion', 'producto', 'monto'];
+    this.dataSource = new MatTableDataSource<Transaccion>([]);
+    // this.dataSource.sort = this.sort;
 
     this.cuentaService.getCuentaMovimiento(this.id_cuenta).subscribe((response) => {
       this.tipo_cuenta = response.data[0].descripcion.toUpperCase();
@@ -124,30 +126,27 @@ export class MovimientosTransaccionesComponent implements AfterViewInit {
         this.codigo_tarjeta = response.data[0].codigo;
         this.fecha_vencimiento_tarjeta = response.data[0].fecha_vencimiento;
       }
-    });
 
-    this.displayedColumns = ['fecha_transaccion', 'num_cuenta', 'origen', 'descripcion', 'operacion', 'producto', 'monto'];
-    this.dataSource = new MatTableDataSource<Transaccion>([]);
+      this.transaccionService.getMovimientosTransacciones(this.id_cuenta, this.id_cliente, this.id_tarjeta || "").subscribe((response) => {
+        this.dataSource.data = response.data;
+        this.dataSource.paginator = this.paginator;
 
-    this.transaccionService.getMovimientosTransacciones(this.id_cuenta, this.id_cliente).subscribe((response) => {
-      this.dataSource.data = response.data;
-      this.dataSource.paginator = this.paginator;
+        this.dataSource.filterPredicate = (data: Transaccion, filter: string) => {
+          const filters = JSON.parse(filter);
+          const formattedDate = formatDate(data.fecha_transaccion, 'dd-MM-yyyy, HH:mm', 'en-US');
+          const numCuentaString = data.num_cuenta !== null && data.num_cuenta !== undefined ? data.num_cuenta.toString() : '';
+          const formattedMonto = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(data.monto);
 
-      this.dataSource.filterPredicate = (data: Transaccion, filter: string) => {
-        const filters = JSON.parse(filter);
-        const formattedDate = formatDate(data.fecha_transaccion, 'dd-MM-yyyy, HH:mm', 'en-US');
-        const numCuentaString = data.num_cuenta !== null && data.num_cuenta !== undefined ? data.num_cuenta.toString() : '';
-        const formattedMonto = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(data.monto);
-
-        const formattedFilter = filter.trim().toLowerCase();
-        return (!filters.descripcion || data.descripcion.toLowerCase().includes(filters.descripcion)) &&
-             (!filters.fecha_transaccion || formattedDate.includes(filters.fecha_transaccion)) &&
-             (!filters.num_cuenta || numCuentaString.includes(filters.num_cuenta)) &&
-             (!filters.operacion || data.operacion.toLowerCase().includes(filters.operacion)) &&
-             (!filters.monto || formattedMonto.includes(filters.monto)) &&
-             (!filters.origen || data.origen.toLowerCase().includes(filters.origen)) &&
-             (!filters.producto || data.producto.toLowerCase().includes(filters.producto));
-      };
+          const formattedFilter = filter.trim().toLowerCase();
+          return (!filters.descripcion || data.descripcion.toLowerCase().includes(filters.descripcion)) &&
+              (!filters.fecha_transaccion || formattedDate.includes(filters.fecha_transaccion)) &&
+              (!filters.num_cuenta || numCuentaString.includes(filters.num_cuenta)) &&
+              (!filters.operacion || data.operacion.toLowerCase().includes(filters.operacion)) &&
+              (!filters.monto || formattedMonto.includes(filters.monto)) &&
+              (!filters.origen || data.origen.toLowerCase().includes(filters.origen)) &&
+              (!filters.producto || data.producto.toLowerCase().includes(filters.producto));
+        };
+      });
     });
   }
 

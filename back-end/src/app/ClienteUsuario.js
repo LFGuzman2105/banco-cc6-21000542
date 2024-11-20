@@ -34,12 +34,12 @@ module.exports = (app) => {
 
         connection.query(`SELECT id_cliente FROM clientes WHERE dpi = "${req.body.dpi}"`, (error, rows, columns) => {
             if (error) {
-                res.json({status: 0, mensaje: "Error en el servidor. " + error});
+                return res.json({status: 0, mensaje: "Error en el servidor. " + error});
             }
             else if (rows.length == 0) {
                 connection.query(`SELECT user_id FROM usuarios WHERE username = "${req.body.username}"`, (error, rows, columns) => {
                     if (error) {
-                        res.json({status: 0, mensaje: "Error en el servidor. " + error});
+                        return res.json({status: 0, mensaje: "Error en el servidor. " + error});
                     }
                     else if (rows.length == 0) {
                         let id_cliente = uuidv4();
@@ -47,14 +47,14 @@ module.exports = (app) => {
                         connection.query(`INSERT INTO clientes VALUES("${id_cliente}", "${req.body.dpi}", "${req.body.nombre1}", "${req.body.nombre2}", "${req.body.nombre3}", "${req.body.apellido1}",
                                         "${req.body.apellido2}", "${req.body.apellido3}", "${req.body.fecha_nacimiento}", 1, NOW())`, (error, rows, columns) => {
                             if (error) {
-                                res.json({status: 0, mensaje: "Error en el servidor. " + error });
+                                return res.json({status: 0, mensaje: "Error en el servidor. " + error });
                             }
                             else {
                                 let user_id = uuidv4();
 
                                 connection.query(`INSERT INTO usuarios VALUES("${user_id}", "${req.body.username}", "${id_cliente}", "${req.body.email}", "${hashedPassword}", 2, NOW())`, (error, rows, columns) => {
                                     if (error) {
-                                        res.json({status: 0, mensaje: "Error en el servidor. " + error });
+                                        return res.json({status: 0, mensaje: "Error en el servidor. " + error });
                                     }
                                     else {
                                         let id_cuenta = uuidv4();
@@ -63,10 +63,36 @@ module.exports = (app) => {
                                         connection.query(`INSERT INTO cuentas VALUES("${id_cuenta}", "${num_cuenta}", "${req.body.id_tipo_cuenta}", 1, 0.00, NOW(), 
                                                                                     "${id_cliente}", 1)`, (error, rows, columns) => {
                                             if (error) {
-                                                res.json({status: 0, mensaje: "Error en el servidor. " + error });
+                                                return res.json({status: 0, mensaje: "Error en el servidor. " + error });
                                             }
                                             else {
-                                                res.json({status: 1, mensaje: "Cliente registrado correctamente."});
+                                                setTimeout(() => {
+                                                    connection.query(`SHOW SLAVE STATUS`, (error, rows, columns) => {
+                                                        if (error) {
+                                                            return res.json({status: 0, mensaje: "Error en el servidor. " + error});
+                                                        }
+                                                        else if (rows.length == 0) {
+                                                            return res.json({status: 0, mensaje: "No esta habilitada la replicación esclavo."});
+                                                        }  
+                                                        else {
+                                                            const Last_Error = rows[0].Last_Error;
+
+                                                            if (Last_Error != "") {
+                                                                connection.query(`CALL manejar_errores_replica()`, (error, rows, columns) => {
+                                                                    if (error) {
+                                                                        return res.json({status: 0, mensaje: "Error en el servidor. " + error});
+                                                                    }
+                                                                    else {
+                                                                        return res.json({status: 1, mensaje: "Cliente registrado correctamente."});
+                                                                    }
+                                                                });
+                                                            }
+                                                            else {
+                                                                return res.json({status: 1, mensaje: "Cliente registrado correctamente."});
+                                                            }
+                                                        }
+                                                     });
+                                                }, 1500);
                                             }
                                         });
                                     }
@@ -75,12 +101,12 @@ module.exports = (app) => {
                         });
                     }
                     else {
-                        res.json({status: 0, mensaje: "Este username ya se encuentra registrado."});
+                        return res.json({status: 0, mensaje: "Este username ya se encuentra registrado."});
                     }
                 });
             }
             else {
-                res.json({status: 0, mensaje: "Este DPI ya se encuentra registrado."});
+                return res.json({status: 0, mensaje: "Este DPI ya se encuentra registrado."});
             }
         });
     });

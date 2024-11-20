@@ -15,8 +15,8 @@ export class TransaccionService {
     this.headers = new HttpHeaders({'Content-Type': 'application/json'});
   }
 
-  getMovimientosTransacciones(id_cuenta: string, id_cliente: string): Observable<any> {
-    return this.http.post(`${this.APP_DOMAIN}/movimientosTransacciones`, {id_cuenta, id_cliente}, {headers: this.headers});
+  getMovimientosTransacciones(id_cuenta: string, id_cliente: string, id_tarjeta: string): Observable<any> {
+    return this.http.post(`${this.APP_DOMAIN}/movimientosTransacciones`, {id_cuenta, id_cliente, id_tarjeta}, {headers: this.headers});
   }
 
   realizarTransferencia(num_cuenta_destino: string, num_cuenta_origen: string, tipo_transaccion: number, monto: number, nombre_origen: string, descripcion: string): Observable<any> {
