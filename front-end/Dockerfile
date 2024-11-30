@@ -7,16 +7,16 @@ WORKDIR /usr/src/app
 # Copiar package.json y package-lock.json
 COPY package*.json ./
 
-# Instalar Angular CLI globalmente y las dependencias de la aplicación
-RUN npm install -g @angular/cli && npm install
+# Instalar las dependencias de Angular y Node.js
+RUN npm install
 
-# Copiar el resto del código fuente al contenedor
+# Copiar el resto del código fuente
 COPY . .
 
 # Construir la aplicación Angular para producción
-RUN ng build --configuration production
+RUN npm run build -- --configuration production
 
-# Etapa 2: Servir la aplicación con Node.js
+# Etapa 2: Configuración del servidor en Node.js para SSR o servir archivos estáticos
 FROM node:20 AS runtime
 
 # Crear y establecer el directorio de trabajo
