@@ -10,8 +10,9 @@ export class CuentaService {
   private headers: HttpHeaders;
 
   constructor(private http: HttpClient) { 
+    this.APP_DOMAIN = "https://backend-bancocc6-761339442076.us-central1.run.app"
     // this.APP_DOMAIN = 'http://localhost:3000';
-    this.APP_DOMAIN = 'http://26.92.101.252:3000';
+    // this.APP_DOMAIN = 'http://26.92.101.252:3000';
     this.headers = new HttpHeaders({'Content-Type': 'application/json'});
   }
 
